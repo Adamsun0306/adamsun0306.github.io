@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<title>PSS in MapleStory M</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+			var lang={
+				eng:{
+					probability:"Probability",
+					round_front:"Round ",
+					round_rear:" / 9",
+					win:"WIN",
+					draw:"DRAW",
+					lose:"LOSE",
+					keep_going:"Keep Going!",
+					give_up:"You'd better give up...",
+					self_choose:"Don't like the recommended choice?<br>Choose your own:",
+					reset:"RESET"
+				},
+				cht:{
+					probability:"機率",
+					round_front:"第 ",
+					round_rear:" 回合/共 9 回合",
+					win:"勝",
+					draw:"和",
+					lose:"敗",
+					keep_going:"繼續遊戲",
+					give_up:"建議放棄",
+					self_choose:"自行選擇:",
+					reset:"重開新局";
+				}};
+			var curr_lang="cht";
+
+
+		</script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-3" id="round">
+				</div>
+				<div class="col-md-2" id="now">
+				</div>
+				<div class="col-md-1" id="win">
+				</div>
+				<div class="col-md-1" id="draw">
+				</div>
+				<div class="col-md-1" id="lose">
+				</div>
+				<div class="col-md-4" id="suggest">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<table class="table">
+						<thead>
+							<tr class="table-secondary">
+								<th>times</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+								</td>
+								<td>
+								</td>
+							</tr>
+							<tr class="table-secondary">
+								<td>
+								</td>
+								<td>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								</td>
+								<td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-lg btn-success btn-block" id="btnWin">
+						
+					</button>
+					<button type="button" class="btn btn-lg btn-warning btn-block" id="btnDraw">
+						
+					</button>
+					<button type="button" class="btn btn-lg btn-danger btn-block" id="btnLose">
+						
+					</button>
+					<button type="button" class="btn btn-lg btn-danger btn-block" id="btnReset">
+						
+					</button>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			
+			var game={
+				state:[3,3,3],
+				round:1,
+				now:1,
+				win:0,
+				draw:0,
+				lose:0
+			};
+			var style={
+				round:[lang[curr_lang]["round_front"],lang[curr_lang]["round_rear"]],
+				now:[""," F"],
+				win:["",""],
+				draw:["",""],
+				lose:["",""]
+			}
+
+			var txtChange=function(id,str){
+				$("#"+id).html(str);
+			};
+			var change=function(str,val){
+				game[str]=val;
+				txtChange(str,style[str][0]+val+style[str][1]);
+			}
+
+			var reset=function(){
+				game.state=[3,3,3];
+				change("round",1);
+				change("now",1);
+				change("win",0);
+				change("draw",0);
+				change("lose",0);
+			}
+
+			$("#btnReset").html(lang[curr_lang]["reset"]).click(function(e){
+				reset();
+			});
+
+		</script>
+	</body>
+</html>
