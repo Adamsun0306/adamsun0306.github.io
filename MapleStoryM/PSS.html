@@ -16,19 +16,21 @@
 					keep_going:"Keep Going!",
 					give_up:"You'd better give up...",
 					self_choose:"Don't like the recommended choice?<br>Choose your own:",
-					reset:"RESET"
+					reset:"RESET",
+					left_times:"Times left"
 				},
 				cht:{
 					probability:"機率",
 					round_front:"第 ",
-					round_rear:" 回合/共 9 回合",
+					round_rear:" 回合<br> /共 9 回合",
 					win:"勝",
 					draw:"和",
 					lose:"敗",
 					keep_going:"繼續遊戲",
 					give_up:"建議放棄",
 					self_choose:"自行選擇:",
-					reset:"重開新局"
+					reset:"重開新局",
+					left_times:"剩餘次數"
 				}};
 			var curr_lang="cht";
 
@@ -56,8 +58,8 @@
 					<table class="table">
 						<thead>
 							<tr class="table-secondary">
-								<th>times</th>
-								<th></th>
+								<th id="probability"></th>
+								<th id="left_times"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -113,9 +115,9 @@
 			var style={
 				round:["<h3>"+lang[curr_lang]["round_front"],lang[curr_lang]["round_rear"]+"</h3>"],
 				now:["<h3>"," F</h3>"],
-				win:["",""],
-				draw:["",""],
-				lose:["",""]
+				win:[lang[curr_lang]["win"]+"<br><h3>","</h3>"],
+				draw:[lang[curr_lang]["draw"]+"<br><h3>","</h3>"],
+				lose:[lang[curr_lang]["lose"]+"<br><h3>","</h3>"]
 			}
 
 			var txtChange=function(id,str){
@@ -134,7 +136,10 @@
 				change("draw",0);
 				change("lose",0);
 			}
+
 			reset();
+			txtChange("probability",lang[curr_lang]["probability"]);
+			txtChange("left_times",lang[curr_lang]["left_times"]);
 
 			$("#btnReset").html(lang[curr_lang]["reset"]).click(function(e){
 				reset();
