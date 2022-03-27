@@ -65,33 +65,48 @@
 						<tbody>
 							<tr>
 								<td>
+									<button type="button" class="btn btn-lg btn-primary">
+										<img src="img/0.png" class="p00">
+										<img src="img/0.png" class="p00 p01">
+										<img src="img/0.png" class="p00 p01 p02">
+									</button>
 								</td>
-								<td>
+								<td id="pr0">
 								</td>
 							</tr>
 							<tr class="table-secondary">
 								<td>
+									<button type="button" class="btn btn-lg btn-primary">
+										<img src="img/1.png" class="p10">
+										<img src="img/1.png" class="p10 p11">
+										<img src="img/1.png" class="p10 p11 p12">
+									</button>
 								</td>
-								<td>
+								<td id="pr1">
 								</td>
 							</tr>
 							<tr>
 								<td>
+									<button type="button" class="btn btn-lg btn-primary">
+										<img src="img/2.png" class="p20">
+										<img src="img/2.png" class="p20 p21">
+										<img src="img/2.png" class="p20 p21 p22">
+									</button>
 								</td>
-								<td>
+								<td id="pr2">
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div class="col-md-4">
-					<button type="button" class="btn btn-lg btn-success btn-block" id="btnWin">
+					<button type="button" class="btn btn-lg btn-success btn-block btn-game" id="btnWin">
 						
 					</button>
-					<button type="button" class="btn btn-lg btn-warning btn-block" id="btnDraw">
+					<button type="button" class="btn btn-lg btn-warning btn-block btn-game" id="btnDraw">
 						
 					</button>
-					<button type="button" class="btn btn-lg btn-danger btn-block" id="btnLose">
+					<button type="button" class="btn btn-lg btn-danger btn-block btn-game" id="btnLose">
 						
 					</button>
 					<button type="button" class="btn btn-lg btn-secondary btn-block" id="btnReset">
@@ -99,6 +114,18 @@
 					</button>
 				</div>
 				<div class="col-md-4">
+					<div>
+						
+					</div>
+					<button type="button" class="btn btn-lg btn-primary" id="btnScissor">
+						<img src="">
+					</button>
+					<button type="button" class="btn btn-lg btn-primary" id="btnStone">
+						<img src="">
+					</button>
+					<button type="button" class="btn btn-lg btn-primary" id="btnPaper">
+						<img src="">
+					</button>
 				</div>
 			</div>
 		</div>
@@ -107,10 +134,12 @@
 			var game={
 				state:[3,3,3],
 				round:1,
+				minList:[0,0,0,0,0,2,3,4,5,5],
 				now:1,
 				win:0,
 				draw:0,
-				lose:0
+				lose:0,
+				recommend:3
 			};
 			var style={
 				round:["<h3>"+lang[curr_lang]["round_front"],lang[curr_lang]["round_rear"]+"</h3>"],
@@ -118,7 +147,7 @@
 				win:[lang[curr_lang]["win"]+"<br><h3>","</h3>"],
 				draw:[lang[curr_lang]["draw"]+"<br><h3>","</h3>"],
 				lose:[lang[curr_lang]["lose"]+"<br><h3>","</h3>"]
-			}
+			};
 
 			var txtChange=function(id,str){
 				$("#"+id).html(str);
@@ -126,16 +155,34 @@
 			var change=function(str,val){
 				game[str]=val;
 				txtChange(str,style[str][0]+val+style[str][1]);
-			}
+			};
 
 			var reset=function(){
+				$(".p00",".p10",".p20").show();
 				game.state=[3,3,3];
 				change("round",1);
 				change("now",1);
 				change("win",0);
 				change("draw",0);
 				change("lose",0);
-			}
+				recommend(3);
+			};
+
+			var buttonChange=function(rec) {
+				$(".btn-game").attr("disabled","false");
+				#("#btnWin").html("<img src='img/"+((rec+1)%3)+".png'> WIN");
+				#("#btnDraw").html("<img src='img/"+rec+".png'> DRAW");
+				#("#btnLose").html("<img src='img/"+((rec+2)%3)+".png'> LOSE");
+			};
+
+			var recommend=function(i){
+				if(i==3){
+					$(".btn-game").attr("disabled","true");
+					return;
+				}
+				game.recommend=i;
+				buttonChange(i);
+			};
 
 			reset();
 			txtChange("probability",lang[curr_lang]["probability"]);
@@ -143,6 +190,41 @@
 
 			$("#btnReset").html(lang[curr_lang]["reset"]).click(function(e){
 				reset();
+			});
+
+			$(".btn-game").click(function(e){
+				var current=({btnWin:0,btnDraw:1,btnLose:2})[e.target.id];
+				var enemy=(current+game.recommend+2)%3;
+				var state=game.state;
+				state[enemy]--;
+				$(".p"+enemy+game.state[enemy]).hide();
+				change("round",game.round+1);
+				var floor=game.now+1-current;
+				floor=(floor>0)?((floor<7)?floor:6):1;
+				change("now",floor);
+				change((["win","draw","lose"])[current],game[(["win","draw","lose"])[current]]+1);
+				txtChange("suggest",(game.now<game.minList[game.round])?lang[curr_lang]["give_up"]:lang[curr_lang]["keep_going"]);
+				var total=state[0]+state[1]+state[2];
+				var p=[0.0,0.0,0.0];
+				for(i=0;i<3;i++){
+					txtChange("pr"+i,(Math.floor(state[i]*10000/total)/100.0)+"%");
+					for(j=0;j<3;j++){
+						var tmp=((i+4-j)%3-1)*1.0*state[j]/total;
+						p[i]+=(tmp>0)?(tmp+0.25):tmp;
+					}
+				}
+				if(state[0]==state[1]&&state[1]==state[2]){
+					recommend(3);
+					return;
+				}
+				var max=(p[0]>p[1])?((p[0]>p[2])?0:2):((p[1]>p[2])?1:2);
+				recommend(max);
+
+			});
+
+			$(".btn-rec").click(function(e) {
+				var current=({btnScissor:0,btnStone:1,btnPaper:2})[e.target.id];
+				recommend(current);
 			});
 
 		</script>
