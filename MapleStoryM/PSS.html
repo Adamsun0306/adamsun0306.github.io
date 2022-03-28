@@ -123,22 +123,23 @@
 					</button>
 				</div>
 				<div class="col-md-4">
-					<div class="btn btn-lg btn-dark btn-block">
+					<div class="btn-lg btn-dark btn-block">
 						<img src="img/0.png" class="re re0">
 						<img src="img/1.png" class="re re1">
 						<img src="img/2.png" class="re re2">
 						<span id="whatever" class="re re3"></span>
 					</div>
-					<br>
-					<button type="button" class="btn btn-lg btn-primary btn-rec" id="btnScissor">
-						<img src="img/0.png">
-					</button>
-					<button type="button" class="btn btn-lg btn-primary btn-rec" id="btnStone">
-						<img src="img/1.png">
-					</button>
-					<button type="button" class="btn btn-lg btn-primary btn-rec" id="btnPaper">
-						<img src="img/2.png">
-					</button>
+					<div class="row">
+						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-4" id="btnScissor">
+							<img src="img/0.png">
+						</button>
+						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-4" id="btnStone">
+							<img src="img/1.png">
+						</button>
+						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-4" id="btnPaper">
+							<img src="img/2.png">
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -184,6 +185,12 @@
 
 			var buttonChange=function(rec) {
 				$(".btn-game").prop("disabled",false);
+				var list=["btnWin","btnDraw","btnLose"];
+				for(var i=0;i<3;i++){
+					if(game.state[((rec+2+i)%3)]==0){
+						$("#"+list[i]).hide();
+					}
+				}
 				$("#btnWin").html("<img src='img/"+((rec+2)%3)+".png'> <h2>WIN</h2>");
 				$("#btnDraw").html("<img src='img/"+rec+".png'> <h2>DRAW</h2>");
 				$("#btnLose").html("<img src='img/"+((rec+1)%3)+".png'> <h2>LOSE</h2>");
