@@ -188,6 +188,8 @@
 				change("draw",0);
 				change("lose",0);
 				txtChange("pr0,#pr1,#pr2","33.33%");
+				txtChange("suggest",lang[curr_lang]["keep_going"]);
+				$("#suggest").removeClass("btn-danger").removeClass("btn-warning").addClass("btn-success");
 				recommend(3);
 			};
 
@@ -219,6 +221,7 @@
 			txtChange("probability",lang[curr_lang]["probability"]);
 			txtChange("left_times",lang[curr_lang]["left_times"]);
 			txtChange("whatever","<h3>"+lang[curr_lang]["whatever"]+"</h3>");
+			txtChange("suggest",lang[curr_lang]["keep_going"]);
 
 			$("#btnReset").html(lang[curr_lang]["reset"]).click(function(e){
 				reset();
