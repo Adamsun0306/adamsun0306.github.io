@@ -7,8 +7,9 @@
 			h2{
 				display: inline-block;
 			}
-			div.btn-lg{
+			div.btn-lg,h3.btn-lg{
 				text-align: center;
+				vertical-align: middle;
 			}
 		</style>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -62,7 +63,7 @@
 				<div class="col-md-1" id="lose">
 				</div>
 				<div class="col-md-4">
-					<h3 id="suggest"></h3>
+					<h3 id="suggest" class="btn btn-lg btn-success"></h3>
 				</div>
 			</div>
 			<div class="row">
@@ -151,7 +152,7 @@
 			var game={
 				state:[3,3,3],
 				round:1,
-				minList:[0,0,0,0,0,2,3,4,5,5],
+				minList:[0,0,0,0,1,2,3,4,5,5],
 				now:1,
 				win:0,
 				draw:0,
@@ -201,7 +202,7 @@
 
 			var recommend=function(i){
 				$(".re").hide();
-				$(".re"+i).show();
+				$(".re"+i).show();	//
 				if(i==3){
 					$(".btn-game").prop("disabled",true);
 					return;
@@ -235,6 +236,17 @@
 				change("now",floor);
 				change((["win","draw","lose"])[current],game[(["win","draw","lose"])[current]]+1);
 				txtChange("suggest",(game.now<game.minList[game.round])?lang[curr_lang]["give_up"]:lang[curr_lang]["keep_going"]);
+				$("#suggest").removeClass("btn-success");
+				$("#suggest").removeClass("btn-warning");
+				$("#suggest").removeClass("btn-danger");
+				$("#suggest").addClass("btn-"+(function(){
+					if(game.now<game.minList[game.round])
+						return "danger";
+					else if(game.now<game.minList[game.round])
+						return "success";
+					else
+						return "warning";
+				})());
 				var total=state[0]+state[1]+state[2];
 				var p=[0.0,0.0,0.0];
 				for(i=0;i<3;i++){
