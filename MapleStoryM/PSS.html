@@ -7,7 +7,7 @@
 			h2{
 				display: inline-block;
 			}
-			div.btn-lg,h3.btn-lg{
+			div.btn-lg,h3.btn-lg,.mi div{
 				text-align: center;
 				vertical-align: middle;
 			}
@@ -51,7 +51,7 @@
 	</head>
 	<body>
 		<div class="container-fluid">
-			<div class="row">
+			<div class="row mi">
 				<div class="col-md-3" id="round">
 				</div>
 				<div class="col-md-2" id="now">
@@ -63,7 +63,7 @@
 				<div class="col-md-1" id="lose">
 				</div>
 				<div class="col-md-4">
-					<h3 id="suggest" class="btn btn-lg btn-success"></h3>
+					<h3 id="suggest" class="btn btn-lg btn-success btn-block"></h3>
 				</div>
 			</div>
 			<div class="row">
@@ -133,16 +133,20 @@
 						<img src="img/2.png" class="re re2">
 						<span id="whatever" class="re re3"></span>
 					</div>
+					<br>
 					<div class="row">
-						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-4" id="btnScissor">
+						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-3" id="btnScissor">
 							<img src="img/0.png">
 						</button>
-						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-4" id="btnStone">
+						<div class="col-md-1"></div>
+						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-3" id="btnStone">
 							<img src="img/1.png">
 						</button>
-						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-4" id="btnPaper">
+						<div class="col-md-1"></div>
+						<button type="button" class="btn btn-lg btn-primary btn-rec col-md-3" id="btnPaper">
 							<img src="img/2.png">
 						</button>
+						<div class="col-md-1"></div>
 					</div>
 				</div>
 			</div>
@@ -242,7 +246,7 @@
 				$("#suggest").addClass("btn-"+(function(){
 					if(game.now<game.minList[game.round])
 						return "danger";
-					else if(game.now<game.minList[game.round])
+					else if(game.now>game.minList[game.round])
 						return "success";
 					else
 						return "warning";
