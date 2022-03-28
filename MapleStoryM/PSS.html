@@ -41,7 +41,7 @@
 					self_choose:"自行選擇:",
 					reset:"重開新局",
 					left_times:"剩餘次數",
-					whatever:"都可以"
+					whatever:"機率一致，請選擇："
 				}};
 			var curr_lang="cht";
 
@@ -213,7 +213,7 @@
 			reset();
 			txtChange("probability",lang[curr_lang]["probability"]);
 			txtChange("left_times",lang[curr_lang]["left_times"]);
-			txtChange("whatever",lang[curr_lang]["whatever"]);
+			txtChange("whatever","<h3>"+lang[curr_lang]["whatever"]+"</h3>");
 
 			$("#btnReset").html(lang[curr_lang]["reset"]).click(function(e){
 				reset();
