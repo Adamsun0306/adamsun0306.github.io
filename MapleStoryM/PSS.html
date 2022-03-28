@@ -188,7 +188,7 @@
 				var list=["btnWin","btnDraw","btnLose"];
 				for(var i=0;i<3;i++){
 					if(game.state[((rec+2+i)%3)]==0){
-						$("#"+list[i]).hide();
+						$("#"+list[i]).prop("disabled",true);
 					}
 				}
 				$("#btnWin").html("<img src='img/"+((rec+2)%3)+".png'> <h2>WIN</h2>");
