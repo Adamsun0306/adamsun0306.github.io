@@ -1,7 +1,13 @@
 <html>
 	<head>
+		<base href="https://adamsun0306.github.io/MapleStoryM/">
 		<title>PSS in MapleStory M</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+		<style type="text/css">
+			h2{
+				display: inline-block;
+			}
+		</style>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
 		<script type="text/javascript">
@@ -17,7 +23,8 @@
 					give_up:"You'd better give up...",
 					self_choose:"Don't like the recommended choice?<br>Choose your own:",
 					reset:"RESET",
-					left_times:"Times left"
+					left_times:"Times left",
+					whatever:"Whatever"
 				},
 				cht:{
 					probability:"機率",
@@ -30,7 +37,8 @@
 					give_up:"建議放棄",
 					self_choose:"自行選擇:",
 					reset:"重開新局",
-					left_times:"剩餘次數"
+					left_times:"剩餘次數",
+					whatever:"都可以"
 				}};
 			var curr_lang="cht";
 
@@ -50,7 +58,8 @@
 				</div>
 				<div class="col-md-1" id="lose">
 				</div>
-				<div class="col-md-4" id="suggest">
+				<div class="col-md-4">
+					<h3 id="suggest"></h3>
 				</div>
 			</div>
 			<div class="row">
@@ -65,10 +74,10 @@
 						<tbody>
 							<tr>
 								<td>
-									<button type="button" class="btn btn-lg btn-primary">
-										<img src="img/0.png" class="p00">
-										<img src="img/0.png" class="p00 p01">
-										<img src="img/0.png" class="p00 p01 p02">
+									<button type="button" class="btn btn-lg btn-primary p00">
+										<img src="img/0.png" width="30" class="p00">
+										<img src="img/0.png" width="30" class="p00 p01">
+										<img src="img/0.png" width="30" class="p00 p01 p02">
 									</button>
 								</td>
 								<td id="pr0">
@@ -76,10 +85,10 @@
 							</tr>
 							<tr class="table-secondary">
 								<td>
-									<button type="button" class="btn btn-lg btn-primary">
-										<img src="img/1.png" class="p10">
-										<img src="img/1.png" class="p10 p11">
-										<img src="img/1.png" class="p10 p11 p12">
+									<button type="button" class="btn btn-lg btn-primary p10">
+										<img src="img/1.png" width="30" class="p10">
+										<img src="img/1.png" width="30" class="p10 p11">
+										<img src="img/1.png" width="30" class="p10 p11 p12">
 									</button>
 								</td>
 								<td id="pr1">
@@ -87,10 +96,10 @@
 							</tr>
 							<tr>
 								<td>
-									<button type="button" class="btn btn-lg btn-primary">
-										<img src="img/2.png" class="p20">
-										<img src="img/2.png" class="p20 p21">
-										<img src="img/2.png" class="p20 p21 p22">
+									<button type="button" class="btn btn-lg btn-primary p20">
+										<img src="img/2.png" width="30" class="p20">
+										<img src="img/2.png" width="30" class="p20 p21">
+										<img src="img/2.png" width="30" class="p20 p21 p22">
 									</button>
 								</td>
 								<td id="pr2">
@@ -101,22 +110,26 @@
 				</div>
 				<div class="col-md-4">
 					<button type="button" class="btn btn-lg btn-success btn-block btn-game" id="btnWin">
-						
+						<h2>WIN</h2>
 					</button>
 					<button type="button" class="btn btn-lg btn-warning btn-block btn-game" id="btnDraw">
-						
+						<h2>DRAW</h2>
 					</button>
 					<button type="button" class="btn btn-lg btn-danger btn-block btn-game" id="btnLose">
-						
+						<h2>LOSE</h2>
 					</button>
 					<button type="button" class="btn btn-lg btn-secondary btn-block" id="btnReset">
 						
 					</button>
 				</div>
 				<div class="col-md-4">
-					<div>
-						
+					<div class="btn btn-lg btn-dark btn-block">
+						<img src="img/0.png" class="re re0">
+						<img src="img/1.png" class="re re1">
+						<img src="img/2.png" class="re re2">
+						<span id="whatever" class="re re3"></span>
 					</div>
+					<br>
 					<button type="button" class="btn btn-lg btn-primary btn-rec" id="btnScissor">
 						<img src="img/0.png">
 					</button>
@@ -150,6 +163,7 @@
 			};
 
 			var txtChange=function(id,str){
+				console.log(id,str);
 				$("#"+id).html(str);
 			};
 			var change=function(str,val){
@@ -158,7 +172,7 @@
 			};
 
 			var reset=function(){
-				$(".p00",".p10",".p20").show();
+				$(".p00, .p10, .p20").show();
 				game.state=[3,3,3];
 				change("round",1);
 				change("now",1);
@@ -169,15 +183,17 @@
 			};
 
 			var buttonChange=function(rec) {
-				$(".btn-game").attr("disabled","false");
-				$("#btnWin").html("<img src='img/"+((rec+1)%3)+".png'> WIN");
-				$("#btnDraw").html("<img src='img/"+rec+".png'> DRAW");
-				$("#btnLose").html("<img src='img/"+((rec+2)%3)+".png'> LOSE");
+				$(".btn-game").prop("disabled",false);
+				$("#btnWin").html("<img src='img/"+((rec+2)%3)+".png'> <h2>WIN</h2>");
+				$("#btnDraw").html("<img src='img/"+rec+".png'> <h2>DRAW</h2>");
+				$("#btnLose").html("<img src='img/"+((rec+1)%3)+".png'> <h2>LOSE</h2>");
 			};
 
 			var recommend=function(i){
+				$(".re").hide();
+				$(".re"+i).show();
 				if(i==3){
-					$(".btn-game").attr("disabled","true");
+					$(".btn-game").prop("disabled",true);
 					return;
 				}
 				game.recommend=i;
@@ -187,13 +203,14 @@
 			reset();
 			txtChange("probability",lang[curr_lang]["probability"]);
 			txtChange("left_times",lang[curr_lang]["left_times"]);
+			txtChange("whatever",lang[curr_lang]["whatever"]);
 
 			$("#btnReset").html(lang[curr_lang]["reset"]).click(function(e){
 				reset();
 			});
 
 			$(".btn-game").click(function(e){
-				var current=({btnWin:0,btnDraw:1,btnLose:2})[e.target.id];
+				var current=({btnWin:0,btnDraw:1,btnLose:2})[e.delegateTarget.id];
 				var enemy=(current+game.recommend+2)%3;
 				var state=game.state;
 				state[enemy]--;
@@ -223,7 +240,7 @@
 			});
 
 			$(".btn-rec").click(function(e) {
-				var current=({btnScissor:0,btnStone:1,btnPaper:2})[e.target.id];
+				var current=({btnScissor:0,btnStone:1,btnPaper:2})[e.delegateTarget.id];
 				recommend(current);
 			});
 
