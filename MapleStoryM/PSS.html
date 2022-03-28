@@ -222,6 +222,10 @@
 				var state=game.state;
 				state[enemy]--;
 				$(".p"+enemy+game.state[enemy]).hide();
+				if(game.round==9){
+					reset();
+					return;
+				}
 				change("round",game.round+1);
 				var floor=game.now+1-current;
 				floor=(floor>0)?((floor<7)?floor:6):1;
