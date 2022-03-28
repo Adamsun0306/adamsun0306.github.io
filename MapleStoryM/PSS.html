@@ -12,7 +12,7 @@
 				vertical-align: middle;
 			}
 			.fh{
-				height: 75p;
+				height: 70pt;
 			}
 		</style>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -87,8 +87,7 @@
 										<img src="img/0.png" width="30" class="p00 p01 p02">
 									</button>
 								</td>
-								<td id="pr0">
-								</td>
+								<td id="pr0">33.33%</td>
 							</tr>
 							<tr class="table-secondary">
 								<td>
@@ -98,8 +97,7 @@
 										<img src="img/1.png" width="30" class="p10 p11 p12">
 									</button>
 								</td>
-								<td id="pr1">
-								</td>
+								<td id="pr1">33.33%</td>
 							</tr>
 							<tr>
 								<td>
@@ -109,8 +107,7 @@
 										<img src="img/2.png" width="30" class="p20 p21 p22">
 									</button>
 								</td>
-								<td id="pr2">
-								</td>
+								<td id="pr2">33.33%</td>
 							</tr>
 						</tbody>
 					</table>
@@ -175,7 +172,6 @@
 			};
 
 			var txtChange=function(id,str){
-				console.log(id,str);
 				$("#"+id).html(str);
 			};
 			var change=function(str,val){
@@ -191,6 +187,7 @@
 				change("win",0);
 				change("draw",0);
 				change("lose",0);
+				txtChange("pr0,#pr1,#pr2","33.33%");
 				recommend(3);
 			};
 
